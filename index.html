@@ -1,0 +1,586 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Saveurs de Corée</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700;900&display=swap" rel="stylesheet">
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+        /* Custom scrollbar for a cleaner look */
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: #f1f1f1; }
+        ::-webkit-scrollbar-thumb { background: #B91C1C; border-radius: 10px; }
+        ::-webkit-scrollbar-thumb:hover { background: #991B1B; }
+
+        /* Animation for section transitions */
+        .section-fade-in {
+            animation: fadeIn 0.5s ease-in-out;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .active-nav {
+            color: #B91C1C;
+            font-weight: 700;
+        }
+        
+        /* Hide sections by default */
+        main > section:not(#accueil) {
+            display: none;
+        }
+    </style>
+</head>
+<body class="bg-gray-50 text-gray-800">
+
+    <!-- Header -->
+    <header class="bg-white/80 backdrop-blur-lg shadow-sm sticky top-0 z-50">
+        <nav class="container mx-auto px-6 py-4 flex justify-between items-center">
+            <a href="#" class="text-2xl font-black text-red-800 tracking-wider" data-section="accueil">SAVEURS DE CORÉE</a>
+            <div class="hidden md:flex items-center space-x-8 text-sm font-bold uppercase tracking-wider">
+                <a href="#" class="text-gray-600 hover:text-red-700 transition duration-300 active-nav" data-section="accueil">Accueil</a>
+                <a href="#" class="text-gray-600 hover:text-red-700 transition duration-300" data-section="recettes">Recettes</a>
+                <a href="#" class="text-gray-600 hover:text-red-700 transition duration-300" data-section="a-propos">À Propos</a>
+                <a href="#" class="text-gray-600 hover:text-red-700 transition duration-300" data-section="conseils">Conseils</a>
+                <a href="#" class="text-gray-600 hover:text-red-700 transition duration-300" data-section="adresses">Adresses</a>
+                <a href="#" class="text-gray-600 hover:text-red-700 transition duration-300" data-section="glossaire">Glossaire</a>
+            </div>
+            <button id="mobile-menu-button" class="md:hidden">
+                <i data-lucide="menu"></i>
+            </button>
+        </nav>
+        <!-- Mobile Menu -->
+        <div id="mobile-menu" class="hidden md:hidden px-6 pb-4 flex flex-col space-y-4 text-sm uppercase">
+            <a href="#" class="text-gray-600 hover:text-red-700 transition duration-300 active-nav" data-section="accueil">Accueil</a>
+            <a href="#" class="text-gray-600 hover:text-red-700 transition duration-300" data-section="recettes">Recettes</a>
+            <a href="#" class="text-gray-600 hover:text-red-700 transition duration-300" data-section="a-propos">À Propos</a>
+            <a href="#" class="text-gray-600 hover:text-red-700 transition duration-300" data-section="conseils">Conseils</a>
+            <a href="#" class="text-gray-600 hover:text-red-700 transition duration-300" data-section="adresses">Adresses</a>
+            <a href="#" class="text-gray-600 hover:text-red-700 transition duration-300" data-section="glossaire">Glossaire</a>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="container mx-auto px-6 py-12">
+
+        <!-- Section: Accueil -->
+        <section id="accueil">
+            <div class="text-center bg-white p-12 rounded-lg shadow-lg">
+                <h1 class="text-5xl font-black text-red-800 mb-4">Bienvenue sur Saveurs de Corée</h1>
+                <p class="text-xl text-gray-600 max-w-3xl mx-auto">Votre guide personnel pour explorer les délices de la cuisine coréenne, des classiques réconfortants aux saveurs audacieuses. Annyeonghaseyo !</p>
+            </div>
+            <div class="mt-16">
+                <h2 class="text-3xl font-bold mb-8 text-center">Dernières Recettes</h2>
+                <div id="latest-recipes" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                    <!-- Les dernières recettes seront injectées ici par JavaScript -->
+                </div>
+            </div>
+        </section>
+
+        <!-- Section: Recettes -->
+        <section id="recettes">
+            <div id="recipe-gallery-view">
+                <div class="flex justify-between items-center mb-8">
+                    <h1 class="text-4xl font-bold">Toutes les Recettes</h1>
+                    <button id="add-recipe-btn" class="bg-red-700 text-white font-bold py-2 px-4 rounded-lg hover:bg-red-800 transition duration-300 flex items-center space-x-2">
+                        <i data-lucide="plus-circle" class="w-5 h-5"></i>
+                        <span>Ajouter une recette</span>
+                    </button>
+                </div>
+                <div id="recipe-list" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                    <!-- Les cartes de recettes seront injectées ici -->
+                </div>
+            </div>
+            <div id="recipe-detail-view" class="hidden">
+                <!-- Le détail d'une recette sera injecté ici -->
+            </div>
+        </section>
+
+        <!-- Section: A Propos -->
+        <section id="a-propos">
+            <h1 class="text-4xl font-bold mb-8 text-center">À Propos</h1>
+            <div class="bg-white p-8 rounded-lg shadow-lg max-w-4xl mx-auto grid md:grid-cols-3 gap-8 items-center">
+                <div class="md:col-span-1">
+                    <img src="https://placehold.co/400x400/EFEFEF/333333?text=Votre+Photo" alt="Photo de l'auteur" class="rounded-full mx-auto w-48 h-48 md:w-full md:h-auto object-cover">
+                </div>
+                <div class="md:col-span-2">
+                    <h2 class="text-2xl font-bold mb-4">Bonjour, je suis [Votre Nom] !</h2>
+                    <p class="text-gray-600 leading-relaxed">Passionné(e) par la richesse et la diversité de la cuisine coréenne, j'ai créé ce site pour partager avec vous mes recettes préférées, mes découvertes et mes astuces. Mon amour pour cette gastronomie a commencé lors d'un voyage à Séoul, où chaque repas était une explosion de saveurs et une leçon d'histoire.</p>
+                    <p class="text-gray-600 leading-relaxed mt-4">Ici, vous ne trouverez pas seulement des instructions, mais des histoires. Chaque plat a une âme, et j'espère vous la transmettre. Alors, à vos baguettes !</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Section: Conseils -->
+        <section id="conseils">
+            <h1 class="text-4xl font-bold mb-8 text-center">Mes Conseils de Préparation</h1>
+            <div class="space-y-8 max-w-3xl mx-auto">
+                <div class="bg-white p-6 rounded-lg shadow-lg">
+                    <h3 class="text-xl font-bold mb-2">1. La maîtrise du riz (Bap)</h3>
+                    <p class="text-gray-600">Le riz est le cœur du repas coréen. Utilisez un riz à grain court ou moyen. Lavez-le à l'eau froide jusqu'à ce que l'eau soit claire, puis laissez-le tremper 30 minutes avant cuisson. Cela garantit un riz tendre et légèrement collant, parfait pour accompagner tous vos plats.</p>
+                </div>
+                <div class="bg-white p-6 rounded-lg shadow-lg">
+                    <h3 class="text-xl font-bold mb-2">2. L'équilibre des saveurs</h3>
+                    <p class="text-gray-600">La cuisine coréenne joue sur 5 saveurs : le salé (sauce soja, doenjang), le sucré (sirop de maïs, sucre), l'acide (vinaigre, kimchi), l'amer (légumes verts) et le piquant (gochujang, piment). N'hésitez pas à goûter et ajuster vos assaisonnements pour trouver l'équilibre qui vous plaît.</p>
+                </div>
+                 <div class="bg-white p-6 rounded-lg shadow-lg">
+                    <h3 class="text-xl font-bold mb-2">3. Ne négligez pas les Banchan</h3>
+                    <p class="text-gray-600">Les "banchan" sont les petits plats d'accompagnement servis avec le riz. Ils sont essentiels à l'expérience coréenne. Même un simple kimchi ou des épinards à l'huile de sésame peuvent transformer un repas simple en un festin.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Section: Adresses -->
+        <section id="adresses">
+            <h1 class="text-4xl font-bold mb-8 text-center">Mes Bonnes Adresses</h1>
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <!-- Carte Adresse 1 -->
+                <div class="bg-white rounded-lg shadow-lg overflow-hidden">
+                    <img src="https://placehold.co/600x400/FCA5A5/450A0A?text=Épicerie" alt="Épicerie Coréenne" class="w-full h-48 object-cover">
+                    <div class="p-6">
+                        <span class="text-xs font-semibold uppercase text-red-700">Épicerie</span>
+                        <h3 class="text-xl font-bold mt-2 mb-2">K-Mart</h3>
+                        <p class="text-gray-600 text-sm mb-4">Le paradis pour trouver tous les ingrédients coréens authentiques. Un choix immense de kimchi, sauces, nouilles et snacks.</p>
+                        <p class="text-gray-500 text-xs"><i data-lucide="map-pin" class="inline w-4 h-4 mr-1"></i>Paris, France</p>
+                    </div>
+                </div>
+                <!-- Carte Adresse 2 -->
+                <div class="bg-white rounded-lg shadow-lg overflow-hidden">
+                    <img src="https://placehold.co/600x400/FDBA74/422006?text=Restaurant" alt="Restaurant Coréen" class="w-full h-48 object-cover">
+                    <div class="p-6">
+                        <span class="text-xs font-semibold uppercase text-red-700">Restaurant</span>
+                        <h3 class="text-xl font-bold mt-2 mb-2">Seoul Mama</h3>
+                        <p class="text-gray-600 text-sm mb-4">Une cuisine coréenne moderne et créative. Leurs barbecues revisités sont à tomber. Pensez à réserver !</p>
+                        <p class="text-gray-500 text-xs"><i data-lucide="map-pin" class="inline w-4 h-4 mr-1"></i>Lyon, France</p>
+                    </div>
+                </div>
+                <!-- Carte Adresse 3 -->
+                 <div class="bg-white rounded-lg shadow-lg overflow-hidden">
+                    <img src="https://placehold.co/600x400/86EFAC/052E16?text=Cantine" alt="Cantine Coréenne" class="w-full h-48 object-cover">
+                    <div class="p-6">
+                        <span class="text-xs font-semibold uppercase text-red-700">Cantine</span>
+                        <h3 class="text-xl font-bold mt-2 mb-2">On The Bab</h3>
+                        <p class="text-gray-600 text-sm mb-4">Parfait pour un déjeuner rapide et délicieux. Leurs "anju" (tapas coréennes) sont parfaits pour découvrir plusieurs saveurs.</p>
+                        <p class="text-gray-500 text-xs"><i data-lucide="map-pin" class="inline w-4 h-4 mr-1"></i>Marseille, France</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <!-- Section: Glossaire -->
+        <section id="glossaire">
+             <h1 class="text-4xl font-bold mb-8 text-center">Glossaire des Ingrédients</h1>
+             <div class="space-y-4 max-w-3xl mx-auto">
+                 <div class="bg-white p-4 rounded-lg shadow-lg flex items-start space-x-4">
+                     <img src="https://placehold.co/100x100/B91C1C/FFFFFF?text=Gochujang" alt="Gochujang" class="w-20 h-20 rounded object-cover">
+                     <div>
+                         <h3 class="font-bold text-lg">Gochujang (고추장)</h3>
+                         <p class="text-gray-600 text-sm">Pâte de piment rouge fermentée. C'est un ingrédient fondamental, à la fois piquant, salé et légèrement sucré. Indispensable pour les ragoûts et les marinades.</p>
+                     </div>
+                 </div>
+                 <div class="bg-white p-4 rounded-lg shadow-lg flex items-start space-x-4">
+                     <img src="https://placehold.co/100x100/FACC15/422006?text=Doenjang" alt="Doenjang" class="w-20 h-20 rounded object-cover">
+                     <div>
+                         <h3 class="font-bold text-lg">Doenjang (된장)</h3>
+                         <p class="text-gray-600 text-sm">Pâte de soja fermentée, similaire au miso japonais mais avec un goût plus rustique et puissant. Base de nombreuses soupes et ragoûts.</p>
+                     </div>
+                 </div>
+                  <div class="bg-white p-4 rounded-lg shadow-lg flex items-start space-x-4">
+                     <img src="https://placehold.co/100x100/4ADE80/052E16?text=Kimchi" alt="Kimchi" class="w-20 h-20 rounded object-cover">
+                     <div>
+                         <h3 class="font-bold text-lg">Kimchi (김치)</h3>
+                         <p class="text-gray-600 text-sm">Légumes fermentés et pimentés, le plus souvent du chou chinois. C'est le plat national coréen, servi comme accompagnement à presque tous les repas.</p>
+                     </div>
+                 </div>
+             </div>
+        </section>
+
+    </main>
+    
+    <!-- Footer -->
+    <footer class="bg-white mt-16 border-t">
+        <div class="container mx-auto px-6 py-8 text-center text-gray-500">
+             <p>&copy; 2025 Saveurs de Corée. Tous droits réservés.</p>
+             <p class="text-sm mt-2">Un site pour les passionnés de cuisine coréenne.</p>
+        </div>
+    </footer>
+
+
+    <!-- Modal for adding a recipe -->
+    <div id="recipe-modal" class="fixed inset-0 bg-black bg-opacity-50 z-50 hidden items-center justify-center p-4">
+        <div class="bg-white rounded-lg shadow-2xl w-full max-w-3xl max-h-full overflow-y-auto">
+            <form id="recipe-form" class="p-8">
+                <div class="flex justify-between items-center mb-6">
+                    <h2 class="text-2xl font-bold">Nouvelle Recette</h2>
+                    <button type="button" id="close-modal-btn" class="text-gray-500 hover:text-gray-800">
+                        <i data-lucide="x-circle"></i>
+                    </button>
+                </div>
+                
+                <div class="space-y-4">
+                    <input type="text" id="recipe-title" placeholder="Titre de la recette" class="w-full p-2 border rounded" required>
+                    <textarea id="recipe-intro" placeholder="Courte introduction ou histoire du plat" class="w-full p-2 border rounded" rows="3"></textarea>
+                    
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <input type="url" id="recipe-image" placeholder="URL de l'image (ex: https://...)" class="w-full p-2 border rounded" required>
+                        <input type="url" id="recipe-video" placeholder="URL de la vidéo YouTube (ex: https://...)" class="w-full p-2 border rounded">
+                    </div>
+
+                    <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+                        <input type="text" id="recipe-prep-time" placeholder="Tps Préparation" class="w-full p-2 border rounded">
+                        <input type="text" id="recipe-cook-time" placeholder="Tps Cuisson" class="w-full p-2 border rounded">
+                        <input type="text" id="recipe-servings" placeholder="Personnes" class="w-full p-2 border rounded">
+                        <select id="recipe-difficulty" class="w-full p-2 border rounded">
+                            <option>Facile</option>
+                            <option>Moyen</option>
+                            <option>Difficile</option>
+                        </select>
+                    </div>
+
+                    <div>
+                        <h3 class="font-bold mb-2">Ingrédients</h3>
+                        <textarea id="recipe-ingredients" placeholder="Un ingrédient par ligne..." class="w-full p-2 border rounded" rows="6" required></textarea>
+                    </div>
+
+                    <div>
+                        <h3 class="font-bold mb-2">Étapes de préparation</h3>
+                        <textarea id="recipe-method" placeholder="Une étape par ligne..." class="w-full p-2 border rounded" rows="8" required></textarea>
+                    </div>
+
+                    <div class="flex justify-end space-x-4">
+                        <button type="button" id="cancel-btn" class="bg-gray-200 text-gray-800 font-bold py-2 px-4 rounded-lg hover:bg-gray-300">Annuler</button>
+                        <button type="submit" class="bg-red-700 text-white font-bold py-2 px-4 rounded-lg hover:bg-red-800">Enregistrer</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+
+
+    <script>
+    document.addEventListener('DOMContentLoaded', function() {
+        // --- INITIAL DATA ---
+        // Données initiales si aucune n'est trouvée dans le stockage local
+        const initialRecipes = [
+            {
+                id: 1,
+                title: "Bibimbap (비빔밥)",
+                intro: "Le plat coréen emblématique ! Un bol de riz chaud garni de légumes sautés, de viande, d'un œuf au plat et assaisonné avec de la pâte de piment (gochujang). Un délice équilibré et coloré.",
+                image: "https://images.unsplash.com/photo-1596235998150-32030737a95b?q=80&w=2070&auto=format&fit=crop",
+                video: "https://www.youtube.com/watch?v=6QQ67_g2M2E",
+                prepTime: "25 min",
+                cookTime: "15 min",
+                servings: "2 pers.",
+                difficulty: "Moyen",
+                ingredients: [
+                    "200g de riz cuit",
+                    "150g de bœuf (filet ou rumsteck)",
+                    "1 carotte",
+                    "1 courgette",
+                    "100g de pousses d'épinards",
+                    "100g de pousses de soja",
+                    "2 champignons shiitake",
+                    "2 œufs",
+                    "2 c.à.s de gochujang",
+                    "1 c.à.s de sauce soja",
+                    "1 c.à.s d'huile de sésame",
+                    "Graines de sésame",
+                    "Ail haché"
+                ],
+                method: [
+                    "Émincer le bœuf et le mariner avec sauce soja, huile de sésame et ail.",
+                    "Couper les légumes en julienne.",
+                    "Faire sauter séparément les légumes dans une poêle avec un peu d'huile. Assaisonner avec sel et poivre.",
+                    "Cuire le bœuf mariné dans la même poêle.",
+                    "Faire cuire les œufs au plat.",
+                    "Dresser les bols : déposer le riz chaud, disposer joliment les légumes et la viande par-dessus.",
+                    "Ajouter l'œuf au plat au centre, parsemer de graines de sésame.",
+                    "Servir avec une cuillère de gochujang. Mélanger le tout avant de déguster !"
+                ]
+            },
+            {
+                id: 2,
+                title: "Bulgogi (불고기)",
+                intro: "Littéralement 'viande de feu', le Bulgogi est un barbecue coréen de fines tranches de bœuf marinées. La marinade sucrée-salée caramélise à la cuisson pour un résultat incroyablement savoureux.",
+                image: "https://images.unsplash.com/photo-1628095111792-a16dc015b61e?q=80&w=1974&auto=format&fit=crop",
+                video: "https://www.youtube.com/watch?v=rX_ElD3m2wE",
+                prepTime: "20 min (+ 1h marinade)",
+                cookTime: "10 min",
+                servings: "4 pers.",
+                difficulty: "Facile",
+                ingredients: [
+                    "500g de faux-filet de bœuf, tranché très finement",
+                    "1 petit oignon",
+                    "2 gousses d'ail",
+                    "1 poire nashi (ou poire classique)",
+                    "4 c.à.s de sauce soja",
+                    "2 c.à.s de sucre brun",
+                    "2 c.à.s d'huile de sésame",
+                    "1 c.à.s de mirin (vin de riz)",
+                    "Ciboule pour la garniture",
+                    "Poivre noir"
+                ],
+                method: [
+                    "Râper la poire, l'oignon et l'ail pour en extraire le jus. Mélanger avec la sauce soja, le sucre, l'huile de sésame et le mirin pour créer la marinade.",
+                    "Placer les fines tranches de bœuf dans la marinade. Bien mélanger et laisser reposer au moins 1 heure au réfrigérateur.",
+                    "Chauffer une poêle ou un gril à feu vif.",
+                    "Saisir la viande marinée par petites quantités pour qu'elle grille bien et ne bouille pas. Cuire 1 à 2 minutes de chaque côté.",
+                    "Servir immédiatement, parsemé de ciboule ciselée et de graines de sésame.",
+                    "Accompagner de riz blanc et de feuilles de laitue pour en faire des bouchées (ssam)."
+                ]
+            }
+        ];
+
+        let recipes = [];
+
+        // --- ELEMENTS ---
+        const sections = document.querySelectorAll('main > section');
+        const navLinks = document.querySelectorAll('nav a');
+        const mobileMenu = document.getElementById('mobile-menu');
+        const mobileMenuButton = document.getElementById('mobile-menu-button');
+        const recipeList = document.getElementById('recipe-list');
+        const latestRecipesContainer = document.getElementById('latest-recipes');
+        const recipeDetailView = document.getElementById('recipe-detail-view');
+        const recipeGalleryView = document.getElementById('recipe-gallery-view');
+        const modal = document.getElementById('recipe-modal');
+        const addRecipeBtn = document.getElementById('add-recipe-btn');
+        const closeModalBtn = document.getElementById('close-modal-btn');
+        const cancelBtn = document.getElementById('cancel-btn');
+        const recipeForm = document.getElementById('recipe-form');
+
+        // --- FUNCTIONS ---
+
+        // Gérer la navigation
+        function navigateTo(sectionId) {
+            sections.forEach(section => {
+                if (section.id === sectionId) {
+                    section.style.display = 'block';
+                    section.classList.add('section-fade-in');
+                } else {
+                    section.style.display = 'none';
+                    section.classList.remove('section-fade-in');
+                }
+            });
+            updateActiveNav(sectionId);
+            window.scrollTo(0, 0); // Remonte en haut de page
+            mobileMenu.classList.add('hidden'); // Ferme le menu mobile
+        }
+        
+        // Mettre à jour le lien actif dans la nav
+        function updateActiveNav(activeSectionId) {
+            navLinks.forEach(link => {
+                if (link.dataset.section === activeSectionId) {
+                    link.classList.add('active-nav');
+                } else {
+                    link.classList.remove('active-nav');
+                }
+            });
+        }
+
+        // Convertir URL YouTube en URL embed
+        function getEmbedUrl(url) {
+            if (!url) return null;
+            let videoId = null;
+            const urlObj = new URL(url);
+            if (urlObj.hostname === 'youtu.be') {
+                videoId = urlObj.pathname.slice(1);
+            } else if (urlObj.hostname.includes('youtube.com')) {
+                videoId = urlObj.searchParams.get('v');
+            }
+            return videoId ? `https://www.youtube.com/embed/${videoId}` : null;
+        }
+
+        // Afficher les recettes
+        function renderRecipes() {
+            recipeList.innerHTML = '';
+            latestRecipesContainer.innerHTML = '';
+            
+            // On inverse la liste pour afficher les plus récentes en premier
+            const reversedRecipes = [...recipes].reverse();
+
+            reversedRecipes.forEach((recipe, index) => {
+                const recipeCard = `
+                    <div class="bg-white rounded-lg shadow-lg overflow-hidden transform hover:-translate-y-2 transition-transform duration-300 cursor-pointer" data-id="${recipe.id}">
+                        <img src="${recipe.image}" alt="${recipe.title}" class="w-full h-48 object-cover">
+                        <div class="p-6">
+                            <span class="text-xs font-semibold uppercase text-red-700">${recipe.difficulty}</span>
+                            <h3 class="text-xl font-bold mt-2 mb-2">${recipe.title}</h3>
+                            <p class="text-gray-600 text-sm h-16 overflow-hidden">${recipe.intro}</p>
+                            <div class="flex items-center justify-between text-xs text-gray-500 mt-4">
+                                <span class="flex items-center"><i data-lucide="clock" class="w-4 h-4 mr-1"></i> ${recipe.prepTime}</span>
+                                <span class="flex items-center"><i data-lucide="users" class="w-4 h-4 mr-1"></i> ${recipe.servings}</span>
+                            </div>
+                        </div>
+                    </div>
+                `;
+                recipeList.innerHTML += recipeCard;
+                
+                // Ajouter aux dernières recettes sur la page d'accueil (3 max)
+                if(index < 3) {
+                    latestRecipesContainer.innerHTML += recipeCard;
+                }
+            });
+            lucide.createIcons();
+            
+            // Ajouter les event listeners sur les nouvelles cartes
+            document.querySelectorAll('#recipe-list .cursor-pointer, #latest-recipes .cursor-pointer').forEach(card => {
+                card.addEventListener('click', () => showRecipeDetail(card.dataset.id));
+            });
+        }
+        
+        // Afficher le détail d'une recette
+        function showRecipeDetail(id) {
+            const recipe = recipes.find(r => r.id == id);
+            if (!recipe) return;
+
+            const embedUrl = getEmbedUrl(recipe.video);
+
+            const ingredientsHTML = recipe.ingredients.map(ing => `<li class="flex items-start"><span class="bg-red-200 text-red-800 text-xs font-bold mr-3 px-2.5 py-1 rounded-full mt-1"></span>${ing}</li>`).join('');
+            const methodHTML = recipe.method.map(step => `<li class="flex items-start"><span class="text-red-700 font-bold mr-3">${recipe.method.indexOf(step) + 1}.</span><p>${step}</p></li>`).join('');
+            
+            recipeDetailView.innerHTML = `
+                <button id="back-to-gallery" class="mb-8 text-red-700 font-bold flex items-center space-x-2 hover:underline">
+                    <i data-lucide="arrow-left"></i>
+                    <span>Retour aux recettes</span>
+                </button>
+                <div class="bg-white p-8 rounded-lg shadow-lg">
+                    <h1 class="text-5xl font-black mb-4">${recipe.title}</h1>
+                    <p class="text-gray-600 mb-8 max-w-3xl">${recipe.intro}</p>
+                    
+                    <div class="grid grid-cols-1 lg:grid-cols-3 gap-8 mb-8">
+                        <div class="lg:col-span-2">
+                             ${embedUrl ? 
+                                `<div class="aspect-w-16 aspect-h-9 rounded-lg overflow-hidden">
+                                    <iframe src="${embedUrl}" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                                 </div>` : 
+                                `<img src="${recipe.image}" alt="${recipe.title}" class="w-full h-full object-cover rounded-lg">`
+                            }
+                        </div>
+                        <div class="bg-gray-50 p-6 rounded-lg">
+                             <h3 class="text-lg font-bold border-b pb-2 mb-4">Détails</h3>
+                             <div class="space-y-3 text-sm">
+                                 <p class="flex justify-between"><strong>Difficulté:</strong> <span>${recipe.difficulty}</span></p>
+                                 <p class="flex justify-between"><strong>Préparation:</strong> <span>${recipe.prepTime}</span></p>
+                                 <p class="flex justify-between"><strong>Cuisson:</strong> <span>${recipe.cookTime}</span></p>
+                                 <p class="flex justify-between"><strong>Personnes:</strong> <span>${recipe.servings}</span></p>
+                             </div>
+                        </div>
+                    </div>
+
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                        <div class="md:col-span-1">
+                            <h2 class="text-2xl font-bold mb-4">Ingrédients</h2>
+                            <ul class="space-y-2 text-gray-700">${ingredientsHTML}</ul>
+                        </div>
+                        <div class="md:col-span-2">
+                            <h2 class="text-2xl font-bold mb-4">Préparation</h2>
+                            <ol class="space-y-4 text-gray-700">${methodHTML}</ol>
+                        </div>
+                    </div>
+                </div>
+            `;
+            
+            lucide.createIcons();
+            navigateTo('recettes');
+            recipeGalleryView.style.display = 'none';
+            recipeDetailView.style.display = 'block';
+            recipeDetailView.classList.add('section-fade-in');
+
+            document.getElementById('back-to-gallery').addEventListener('click', () => {
+                recipeDetailView.style.display = 'none';
+                recipeGalleryView.style.display = 'block';
+                recipeGalleryView.classList.add('section-fade-in');
+            });
+        }
+        
+        // Sauvegarder les recettes dans le localStorage
+        function saveRecipes() {
+            localStorage.setItem('koreanCuisineRecipes', JSON.stringify(recipes));
+        }
+
+        // Charger les recettes
+        function loadRecipes() {
+            const storedRecipes = localStorage.getItem('koreanCuisineRecipes');
+            if (storedRecipes) {
+                recipes = JSON.parse(storedRecipes);
+            } else {
+                recipes = initialRecipes;
+            }
+            renderRecipes();
+        }
+
+        // Gérer le formulaire
+        function handleFormSubmit(event) {
+            event.preventDefault();
+            
+            const newRecipe = {
+                id: Date.now(), // ID unique
+                title: document.getElementById('recipe-title').value,
+                intro: document.getElementById('recipe-intro').value,
+                image: document.getElementById('recipe-image').value,
+                video: document.getElementById('recipe-video').value,
+                prepTime: document.getElementById('recipe-prep-time').value,
+                cookTime: document.getElementById('recipe-cook-time').value,
+                servings: document.getElementById('recipe-servings').value,
+                difficulty: document.getElementById('recipe-difficulty').value,
+                ingredients: document.getElementById('recipe-ingredients').value.split('\n').filter(line => line.trim() !== ''),
+                method: document.getElementById('recipe-method').value.split('\n').filter(line => line.trim() !== ''),
+            };
+
+            recipes.push(newRecipe);
+            saveRecipes();
+            renderRecipes();
+            modal.classList.add('hidden');
+            recipeForm.reset();
+        }
+
+        // --- EVENT LISTENERS ---
+        
+        // Navigation principale et mobile
+        navLinks.forEach(link => {
+            link.addEventListener('click', (e) => {
+                e.preventDefault();
+                const sectionId = e.target.dataset.section;
+                if (sectionId === 'recettes') {
+                    // Si on clique sur recettes, on montre la galerie
+                    recipeDetailView.style.display = 'none';
+                    recipeGalleryView.style.display = 'block';
+                }
+                navigateTo(sectionId);
+            });
+        });
+
+        // Toggle menu mobile
+        mobileMenuButton.addEventListener('click', () => {
+            mobileMenu.classList.toggle('hidden');
+        });
+
+        // Modal
+        addRecipeBtn.addEventListener('click', () => modal.classList.remove('hidden', 'flex', 'items-center', 'justify-center') || modal.classList.add('flex', 'items-center', 'justify-center'));
+        closeModalBtn.addEventListener('click', () => modal.classList.add('hidden'));
+        cancelBtn.addEventListener('click', () => modal.classList.add('hidden'));
+        modal.addEventListener('click', (e) => {
+            if (e.target === modal) {
+                modal.classList.add('hidden');
+            }
+        });
+
+        // Soumission du formulaire
+        recipeForm.addEventListener('submit', handleFormSubmit);
+
+        // --- INITIALIZATION ---
+        lucide.createIcons();
+        loadRecipes();
+        navigateTo('accueil'); // Page de démarrage
+    });
+    </script>
+</body>
+</html>
